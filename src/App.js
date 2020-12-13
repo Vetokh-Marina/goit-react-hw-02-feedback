@@ -1,24 +1,28 @@
 import { Component } from 'react';
-import Section from './components/Feedback/Section/Section';
+import Section from './components/Section';
+import Feedback from './components/Feedback';
+import Statistics from './components/Statistics';
+import Notification from './components/Notification';
 
-
-export default class App extends Component {
+ class App extends Component {
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
   };
-clickActiveItem = item => {
+
+  clickActiveItem = item => {
     this.setState(PrevState => ({
       [item]: PrevState[item] + 1,
     }));
-};
+  };
+
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
     return good + neutral + bad;
   };
 
-  countPositiveFeedback = () => {
+  countPositiveFeedbackPercentage = () => {
     return Math.round((this.state.good * 100) / this.countTotalFeedback());
   };
 
@@ -29,7 +33,6 @@ clickActiveItem = item => {
           <Feedback
             options={['good', 'neutral', 'bad']}
             onLeaveFeedback={this.clickActiveItem}
-            getNameFeedback={this.getNameFeedback}
           />
         </Section>
         <Section title="Statistics">
@@ -41,7 +44,7 @@ clickActiveItem = item => {
               neutral={this.state.neutral}
               bad={this.state.bad}
               total={this.countTotalFeedback()}
-              positivePercentage={this.countPositiveFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
             />
           )}
         </Section>
@@ -49,3 +52,4 @@ clickActiveItem = item => {
     );
   }
 }
+export default App;
